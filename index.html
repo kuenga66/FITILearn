@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FITI — Financial Institutions Training Institute</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2b50 60%, #152540 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-deco {
+      position: absolute;
+      right: -60px; top: 50%;
+      transform: translateY(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(201,168,76,.12);
+      border: 1px solid rgba(201,168,76,.3);
+      color: var(--gold-lt);
+      padding: .4rem 1rem;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .hero-desc {
+      color: rgba(255,255,255,.7);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: .78rem;
+      color: rgba(255,255,255,.5);
+      margin-top: .25rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .hero-visual {
+      position: relative;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(201,168,76,.2);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .hero-card-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .program-list { list-style: none; }
+    .program-list li {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      color: rgba(255,255,255,.8);
+      font-size: .9rem;
+    }
+    .program-list li:last-child { border-bottom: none; }
+    .prog-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .prog-badge {
+      margin-left: auto;
+      font-size: .7rem;
+      background: rgba(201,168,76,.15);
+      color: var(--gold-lt);
+      padding: .2rem .6rem;
+      border-radius: 20px;
+    }
+    .float-badge {
+      position: absolute;
+      bottom: -1.5rem; left: -2rem;
+      background: var(--white);
+      border-radius: 8px;
+      padding: .75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .float-badge-icon {
+      font-size: 1.5rem;
+    }
+    .float-badge-text strong {
+      display: block;
+      font-size: .85rem;
+      color: var(--navy);
+    }
+    .float-badge-text span {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* Features section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    /* Testimonial */
+    .testimonial-section { background: var(--navy); padding: 5rem 0; }
+    .testimonial-inner {
+      max-width: 760px; margin: 0 auto;
+      text-align: center;
+    }
+    .testimonial-inner blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      color: var(--white);
+      line-height: 1.5;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .author-info strong { display: block; color: var(--white); font-size: .9rem; }
+    .author-info span { font-size: .8rem; color: rgba(255,255,255,.5); }
+
+    /* CTA section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--gold) 0%, #a8872e 100%);
+      padding: 5rem 0;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .cta-section p { color: rgba(11,31,58,.75); max-width: 500px; margin: 0 auto 2rem; }
+
+    @media (max-width: 800px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero { min-height: auto; padding: 8rem 0 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">🏦 Bhutan's Premier Financial Training Institute</div>
+      <h1 class="hero-title">Building <em>Financial Excellence</em> for Bhutan</h1>
+      <p class="hero-desc">
+        FITI delivers world-class capacity-building programs exclusively designed for professionals in the banking and insurance sectors. Empowering careers. Strengthening institutions.
+      </p>
+      <div class="hero-actions">
+        <a href="programs.html" class="btn btn-primary">Explore Programs</a>
+        <button onclick="requireLogin() && (window.location.href='register.html')" class="btn btn-ghost" style="border:none;cursor:pointer">Apply Now</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">20+</div>
+          <div class="hero-stat-label">Training Programs</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">Graduates</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">15+</div>
+          <div class="hero-stat-label">Partner Institutions</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-title">Featured Programs 2026</div>
+        <ul class="program-list">
+          <li>
+            <div class="prog-dot"></div>
+            Banking Fundamentals & Practice
+            <span class="prog-badge">Open</span>
+          </li>
+          <li>
+            <div class="prog-dot"></div>
+            Risk Management in Finance
+            <span class="prog-badge">Open</span>
+          </li>
+          <li>
+            <div class="prog-dot"></div>
+            Insurance Principles & Products
+            <span class="prog-badge">Open</span>
+          </li>
+          <li>
+            <div class="prog-dot"></div>
+            Digital Finance & Fintech
+            <span class="prog-badge">Soon</span>
+          </li>
+          <li>
+            <div class="prog-dot"></div>
+            Leadership for Financial Managers
+            <span class="prog-badge">Soon</span>
+          </li>
+        </ul>
+      </div>
+      <div class="float-badge">
+        <div class="float-badge-icon">🎓</div>
+        <div class="float-badge-text">
+          <strong>Next Intake: June 2026</strong>
+          <span>Applications closing soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ──────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Why FITI</div>
+    <h2 class="section-title">Dedicated to Financial Sector Excellence</h2>
+    <p class="section-body">
+      As Bhutan's only specialized financial training institute, FITI understands the unique needs of the banking and insurance industries, delivering programs with real-world relevance.
+    </p>
+    <div class="features-grid">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3 style="font-size:1.2rem;margin-bottom:.5rem">Sector-Specific</h3>
+        <p style="color:var(--slate);font-size:.9rem;line-height:1.7">Every program is purpose-built for banking and insurance professionals — no generic content.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👨‍🏫</div>
+        <h3 style="font-size:1.2rem;margin-bottom:.5rem">Expert Faculty</h3>
+        <p style="color:var(--slate);font-size:.9rem;line-height:1.7">Learn from seasoned practitioners and industry leaders with decades of hands-on experience.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h3 style="font-size:1.2rem;margin-bottom:.5rem">Recognized Credentials</h3>
+        <p style="color:var(--slate);font-size:.9rem;line-height:1.7">FITI certificates are recognized across Bhutan's entire financial services sector.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3 style="font-size:1.2rem;margin-bottom:.5rem">Continuous Learning</h3>
+        <p style="color:var(--slate);font-size:.9rem;line-height:1.7">From foundational courses to executive-level seminars, grow at every stage of your career.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIAL ───────────────────────────────────────── -->
+<section class="testimonial-section">
+  <div class="container">
+    <div class="testimonial-inner">
+      <div style="font-size:3rem;margin-bottom:1rem;opacity:.4">"</div>
+      <blockquote>
+        FITI's Risk Management program completely transformed how our team approaches credit decisions. The instructors brought real-world scenarios that made every concept tangible.
+      </blockquote>
+      <div class="testimonial-author">
+        <div class="author-avatar">T</div>
+        <div class="author-info">
+          <strong>Tshering Dorji</strong>
+          <span>Senior Credit Officer, Bank of Bhutan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Advance Your Career?</h2>
+    <p>Join hundreds of financial professionals who have transformed their careers through FITI's specialized programs.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button onclick="requireLogin() && (window.location.href='register.html')" class="btn btn-outline" style="border:none;cursor:pointer">Create an Account</button>
+      <a href="contact.html" class="btn btn-outline">Talk to an Advisor</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="app.js"></script>
+<script src="layout.js"></script>
+</body>
+</html>

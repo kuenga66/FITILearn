@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — FITI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Mission section */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .mission-visual {
+      position: relative;
+    }
+    .mission-card {
+      background: var(--navy);
+      border-radius: 8px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 40px solid rgba(201,168,76,.1);
+    }
+    .mission-card-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .mission-card-quote {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--white);
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: .75rem;
+      color: rgba(255,255,255,.5);
+      margin-top: .2rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* Values */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .value-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      border-top: 3px solid var(--gold);
+    }
+    .value-number {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      color: rgba(201,168,76,.2);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .value-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .5rem;
+      font-family: var(--font-display);
+    }
+    .value-desc {
+      font-size: .88rem;
+      color: var(--slate);
+      line-height: 1.7;
+    }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .team-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .team-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), #1a3a6b);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0 auto 1rem;
+    }
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .25rem;
+    }
+    .team-role {
+      font-size: .8rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 500;
+    }
+    .team-bio {
+      font-size: .83rem;
+      color: var(--slate);
+      margin-top: .75rem;
+      line-height: 1.6;
+    }
+
+    /* Timeline */
+    .timeline { margin-top: 3rem; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .timeline-dot {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .timeline-content {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      flex: 1;
+    }
+    .timeline-year {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .25rem;
+    }
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .4rem;
+    }
+    .timeline-text {
+      font-size: .85rem;
+      color: var(--slate);
+      line-height: 1.65;
+    }
+
+    /* Partners */
+    .partners-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .partner-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem 1.5rem;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--navy);
+      transition: border-color .2s, background .2s;
+    }
+    .partner-chip:hover { border-color: var(--gold); background: rgba(201,168,76,.05); }
+
+    @media (max-width: 800px) {
+      .mission-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>About</span>
+      </div>
+      <h1>About FITI</h1>
+      <p>Bhutan's only dedicated training institute for the banking and insurance sector — building financial expertise since our founding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="section">
+  <div class="container">
+    <div class="mission-grid">
+      <div>
+        <div class="section-label">Our Mission</div>
+        <h2 class="section-title">Dedicated Solely to Financial Sector Excellence</h2>
+        <p class="section-body">
+          The Financial Institutions Training Institute (FITI) exists with a singular purpose: to deliver world-class capacity-building programs exclusively for professionals in Bhutan's banking and insurance industries.
+        </p>
+        <p style="color:var(--slate);font-size:.95rem;line-height:1.75;margin-top:1rem">
+          Unlike generic training providers, every program FITI offers is purpose-designed for the financial sector — grounded in real regulatory requirements, practical challenges, and the unique context of Bhutan's financial landscape.
+        </p>
+        <div style="display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap">
+          <a href="programs.html" class="btn btn-primary">View Programs</a>
+          <a href="contact.html" class="btn btn-outline">Contact Us</a>
+        </div>
+      </div>
+      <div class="mission-visual">
+        <div class="mission-card">
+          <div class="mission-card-title">Our Vision</div>
+          <div class="mission-card-quote">
+            "To be the premier institution developing financial sector talent that drives Bhutan's economic prosperity."
+          </div>
+          <div class="stat-row">
+            <div>
+              <div class="stat-num">20+</div>
+              <div class="stat-label">Programs</div>
+            </div>
+            <div>
+              <div class="stat-num">500+</div>
+              <div class="stat-label">Graduates</div>
+            </div>
+            <div>
+              <div class="stat-num">15+</div>
+              <div class="stat-label">Partners</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label">What We Stand For</div>
+    <h2 class="section-title">Our Core Values</h2>
+    <p class="section-body">These principles guide everything we do — from curriculum design to how we engage with our community of learners.</p>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-number">01</div>
+        <div class="value-title">Excellence</div>
+        <p class="value-desc">We hold ourselves to the highest standards in every program, every interaction, and every outcome we deliver.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">02</div>
+        <div class="value-title">Relevance</div>
+        <p class="value-desc">Our curriculum is continuously updated to reflect the latest regulatory requirements and industry best practices.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">03</div>
+        <div class="value-title">Integrity</div>
+        <p class="value-desc">We operate with transparency and ethical conduct, modeling the professional standards we teach in the classroom.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">04</div>
+        <div class="value-title">Sustainability</div>
+        <p class="value-desc">We are committed to building an institution that serves Bhutan's financial sector for generations to come.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- History / Timeline -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Our Journey</div>
+    <h2 class="section-title">FITI Milestones</h2>
+    <p class="section-body">From a vision to Bhutan's only specialized financial training institute — our story of growth and impact.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">Est.</div>
+        <div class="timeline-content">
+          <div class="timeline-year">Founding</div>
+          <div class="timeline-title">FITI Established</div>
+          <p class="timeline-text">The Financial Institutions Training Institute was founded with a mandate to provide specialized training exclusively for Bhutan's banking and insurance sectors, addressing a critical gap in professional development.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">Grow</div>
+        <div class="timeline-content">
+          <div class="timeline-year">Expansion</div>
+          <div class="timeline-title">First 100 Graduates</div>
+          <p class="timeline-text">FITI celebrated its first major milestone with 100 graduates completing certification programs across banking fundamentals, risk management, and insurance principles.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">Part</div>
+        <div class="timeline-content">
+          <div class="timeline-year">Partnerships</div>
+          <div class="timeline-title">15+ Institutional Partners</div>
+          <p class="timeline-text">FITI established formal partnerships with all major banks and insurance companies in Bhutan, securing a stable client base and embedding FITI credentials into professional advancement pathways.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2025</div>
+        <div class="timeline-content">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-title">Reaching Break-Even</div>
+          <p class="timeline-text">After years of investment in capacity and curriculum, FITI achieved financial break-even in early 2025 — a landmark in the institute's journey toward long-term sustainability.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2026</div>
+        <div class="timeline-content">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">Digital Transformation</div>
+          <p class="timeline-text">FITI launches its digital platform and expanded program portfolio, including Digital Finance & Fintech and Leadership for Financial Managers — responding to the evolving needs of the sector.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label">Leadership</div>
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-body">Our leadership team brings decades of experience across banking, insurance, regulation, and education.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">D</div>
+        <div class="team-name">Dorji Wangchuk</div>
+        <div class="team-role">Executive Director</div>
+        <p class="team-bio">20+ years in banking and financial regulation. Former senior official at the Royal Monetary Authority of Bhutan.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">P</div>
+        <div class="team-name">Pema Lhamo</div>
+        <div class="team-role">Head of Programs</div>
+        <p class="team-bio">Specialist in curriculum design and professional certification frameworks for the financial services industry.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">T</div>
+        <div class="team-name">Tenzin Namgyal</div>
+        <div class="team-role">Lead Faculty — Banking</div>
+        <p class="team-bio">Former VP at Bank of Bhutan with expertise in credit risk, treasury operations, and regulatory compliance.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">K</div>
+        <div class="team-name">Karma Choden</div>
+        <div class="team-role">Lead Faculty — Insurance</div>
+        <p class="team-bio">Certified actuary with 15 years in general and life insurance, bringing practical underwriting experience to the classroom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Partners -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Institutional Partners</div>
+    <h2 class="section-title">Trusted by Bhutan's Financial Sector</h2>
+    <p class="section-body">FITI works closely with all major financial institutions in Bhutan to ensure programs meet real-world requirements.</p>
+    <div class="partners-row">
+      <div class="partner-chip">🏦 Bank of Bhutan</div>
+      <div class="partner-chip">🏦 Bhutan National Bank</div>
+      <div class="partner-chip">🏦 Druk PNB Bank</div>
+      <div class="partner-chip">🏦 T Bank Ltd.</div>
+      <div class="partner-chip">🏦 BDBL</div>
+      <div class="partner-chip">🛡️ Royal Insurance Corporation</div>
+      <div class="partner-chip">🛡️ Bhutan Insurance Ltd.</div>
+      <div class="partner-chip">📋 Royal Monetary Authority</div>
+      <div class="partner-chip">📋 SEBI Bhutan</div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="app.js"></script>
+<script src="layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs — FITI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+    .filter-btn {
+      padding: .45rem 1.1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--white);
+      font-family: var(--font-body);
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--slate);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+
+    /* Program cards */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .program-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .program-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .program-card[data-hidden="true"] { display: none; }
+
+    .program-card-header {
+      padding: 1.75rem 1.75rem 1.25rem;
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a6b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card-header::before {
+      content: '';
+      position: absolute;
+      right: -20px; top: -20px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      border: 25px solid rgba(201,168,76,.1);
+    }
+    .program-category {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: .5rem;
+    }
+    .program-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .program-card-body {
+      padding: 1.5rem 1.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .program-desc {
+      font-size: .875rem;
+      color: var(--slate);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .program-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.25rem;
+    }
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .75rem;
+      color: var(--slate);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: .25rem .7rem;
+      border-radius: 20px;
+    }
+    .program-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .badge-open { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+    .badge-soon { background: #fffbeb; color: #92400e; border: 1px solid #fbd38d; }
+    .badge-full { background: #fff5f5; color: var(--error); border: 1px solid #feb2b2; }
+
+    .program-card-footer {
+      padding: 1.25rem 1.75rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .program-price {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .program-price span {
+      font-size: .75rem;
+      font-weight: 400;
+      color: var(--muted);
+      font-family: var(--font-body);
+    }
+
+    /* Intake callout */
+    .intake-banner {
+      background: linear-gradient(135deg, var(--gold) 0%, #b8922f 100%);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    .intake-banner h3 {
+      font-size: 1.4rem;
+      color: var(--navy);
+      margin-bottom: .3rem;
+    }
+    .intake-banner p { color: rgba(11,31,58,.7); font-size: .9rem; }
+
+    /* How it works */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+      counter-reset: steps;
+    }
+    .step-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .step-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .5rem;
+    }
+    .step-desc {
+      font-size: .85rem;
+      color: var(--slate);
+      line-height: 1.65;
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Programs</span>
+      </div>
+      <h1>Our Programs</h1>
+      <p>Specialized training designed for banking and insurance professionals at every stage of their career.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Programs -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">2026 Intake</div>
+    <h2 class="section-title">Find Your Program</h2>
+    <p class="section-body">All FITI programs are developed with input from industry partners and designed to deliver practical, job-ready skills.</p>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All Programs</button>
+      <button class="filter-btn" data-filter="banking">Banking</button>
+      <button class="filter-btn" data-filter="insurance">Insurance</button>
+      <button class="filter-btn" data-filter="management">Management</button>
+      <button class="filter-btn" data-filter="digital">Digital Finance</button>
+    </div>
+
+    <!-- Cards -->
+    <div class="programs-grid" id="programsGrid">
+
+      <div class="program-card" data-category="banking">
+        <div class="program-card-header">
+          <div class="program-category">Banking</div>
+          <div class="program-title">Banking Fundamentals & Practice</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">A comprehensive foundation in banking operations, products, and services. Covers retail banking, deposit management, lending basics, and customer service excellence.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 5 Days</span>
+            <span class="meta-pill">👥 Max 25</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-open">Open</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Next session: June 9–13, 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 8,500 <span>/ participant</span></div>
+          <button onclick="enrollProgram('Banking Fundamentals & Practice')" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem;border:none;cursor:pointer">Enroll Now</button>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="banking">
+        <div class="program-card-header">
+          <div class="program-category">Banking</div>
+          <div class="program-title">Credit Analysis & Risk Assessment</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Deep dive into credit evaluation methodologies, financial statement analysis, collateral assessment, and loan structuring for commercial and retail credit officers.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 4 Days</span>
+            <span class="meta-pill">👥 Max 20</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-open">Open</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Next session: June 16–19, 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 9,000 <span>/ participant</span></div>
+          <button onclick="enrollProgram('Credit Analysis & Risk Assessment')" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem;border:none;cursor:pointer">Enroll Now</button>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="banking">
+        <div class="program-card-header">
+          <div class="program-category">Banking</div>
+          <div class="program-title">Risk Management in Finance</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Equips professionals with frameworks for identifying, measuring, and managing market, credit, liquidity, and operational risks in a banking environment.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 3 Days</span>
+            <span class="meta-pill">👥 Max 30</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-open">Open</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Next session: July 7–9, 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 7,500 <span>/ participant</span></div>
+          <button onclick="enrollProgram('Risk Management in Finance')" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem;border:none;cursor:pointer">Enroll Now</button>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="insurance">
+        <div class="program-card-header">
+          <div class="program-category">Insurance</div>
+          <div class="program-title">Insurance Principles & Products</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Foundational understanding of insurance theory, product design, underwriting principles, and claims management across life and general insurance lines.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 5 Days</span>
+            <span class="meta-pill">👥 Max 25</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-open">Open</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Next session: June 23–27, 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 8,500 <span>/ participant</span></div>
+          <button onclick="enrollProgram('Insurance Principles & Products')" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem;border:none;cursor:pointer">Enroll Now</button>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="insurance">
+        <div class="program-card-header">
+          <div class="program-category">Insurance</div>
+          <div class="program-title">Claims Investigation & Management</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Practical training for claims professionals on investigation techniques, fraud detection, settlement processes, and regulatory compliance in claims handling.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 3 Days</span>
+            <span class="meta-pill">👥 Max 20</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-soon">Coming Soon</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Planned: August 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 7,000 <span>/ participant</span></div>
+          <a href="contact.html" class="btn btn-outline" style="padding:.5rem 1.2rem;font-size:.8rem">Get Notified</a>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="digital">
+        <div class="program-card-header">
+          <div class="program-category">Digital Finance</div>
+          <div class="program-title">Digital Finance & Fintech</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Explores the digital transformation of financial services: mobile banking, payment systems, blockchain basics, cybersecurity, and regulatory frameworks for fintech.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 4 Days</span>
+            <span class="meta-pill">👥 Max 25</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-soon">Coming Soon</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Planned: July 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 10,000 <span>/ participant</span></div>
+          <a href="contact.html" class="btn btn-outline" style="padding:.5rem 1.2rem;font-size:.8rem">Get Notified</a>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="management">
+        <div class="program-card-header">
+          <div class="program-category">Management</div>
+          <div class="program-title">Leadership for Financial Managers</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Executive development program for mid-to-senior managers in the financial sector covering strategic thinking, team leadership, change management, and decision-making.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 3 Days</span>
+            <span class="meta-pill">👥 Max 20</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-soon">Coming Soon</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Planned: September 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 12,000 <span>/ participant</span></div>
+          <a href="contact.html" class="btn btn-outline" style="padding:.5rem 1.2rem;font-size:.8rem">Get Notified</a>
+        </div>
+      </div>
+
+      <div class="program-card" data-category="banking">
+        <div class="program-card-header">
+          <div class="program-category">Banking</div>
+          <div class="program-title">Anti-Money Laundering (AML) & Compliance</div>
+        </div>
+        <div class="program-card-body">
+          <p class="program-desc">Addresses AML regulations, KYC procedures, suspicious transaction reporting, and compliance frameworks required under Bhutan's financial regulatory environment.</p>
+          <div class="program-meta">
+            <span class="meta-pill">📅 2 Days</span>
+            <span class="meta-pill">👥 Max 30</span>
+            <span class="meta-pill">🏫 In-Person</span>
+            <span class="program-badge badge-open">Open</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--muted)">Next session: July 14–15, 2026</p>
+        </div>
+        <div class="program-card-footer">
+          <div class="program-price">Nu. 5,500 <span>/ participant</span></div>
+          <button onclick="enrollProgram('Anti-Money Laundering (AML) & Compliance')" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem;border:none;cursor:pointer">Enroll Now</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Intake banner -->
+    <div class="intake-banner">
+      <div>
+        <h3>🎓 June 2026 Intake Now Open</h3>
+        <p>Applications close May 30, 2026. Secure your spot in Bhutan's premier financial training programs.</p>
+      </div>
+      <button onclick="requireLogin() && (window.location.href='register.html')" class="btn btn-outline" style="border:none;cursor:pointer">Apply Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- How to Enroll -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label">Enrollment Process</div>
+    <h2 class="section-title">How to Enroll</h2>
+    <p class="section-body">Getting started with FITI is simple. Follow these four steps to secure your place.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">Create Account</div>
+        <p class="step-desc">Register on the FITI portal with your professional details and institutional affiliation.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">Choose Program</div>
+        <p class="step-desc">Browse available programs and select those that match your career development goals.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">Submit Application</div>
+        <p class="step-desc">Complete the enrollment form. Your institution may need to confirm your nomination.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">Attend & Certify</div>
+        <p class="step-desc">Attend the program and receive your FITI certificate recognized across the financial sector.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="app.js"></script>
+<script src="layout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.program-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const cat = card.dataset.category;
+        card.setAttribute('data-hidden', filter !== 'all' && cat !== filter ? 'true' : 'false');
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — FITI</title>
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+      .dashboard-hero {
+        background: linear-gradient(135deg, var(--navy) 0%, #132d52 100%);
+        padding: 7rem 0 4rem;
+        color: var(--white);
+      }
+
+      .dashboard-hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: 1rem;
+      }
+
+      .dashboard-hero p {
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 700px;
+        line-height: 1.8;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .dashboard-card {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        transition: 0.3s ease;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .dashboard-card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        background: rgba(201, 168, 76, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        margin-bottom: 1rem;
+      }
+
+      .dashboard-card h3 {
+        margin-bottom: 0.75rem;
+        color: var(--navy);
+        font-size: 1.2rem;
+      }
+
+      .dashboard-card p {
+        color: var(--slate);
+        line-height: 1.7;
+        font-size: 0.92rem;
+      }
+
+      .quick-actions {
+        margin-top: 4rem;
+        background: #f8f9fc;
+        border-radius: 12px;
+        padding: 2rem;
+      }
+
+      .quick-actions h2 {
+        margin-bottom: 1.5rem;
+        color: var(--navy);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .activity-list {
+        margin-top: 4rem;
+      }
+
+      .activity-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .activity-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(201, 168, 76, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      .activity-content strong {
+        display: block;
+        color: var(--navy);
+        margin-bottom: 0.2rem;
+      }
+
+      .activity-content span {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="navbar-root"></div>
+
+    <!-- HERO -->
+    <section class="dashboard-hero">
+      <div class="container">
+        <h1>Student Dashboard</h1>
+        <p>
+          Welcome to the FITI student portal. Access your enrolled programs,
+          training progress, certificates, announcements, and more.
+        </p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="section">
+      <div class="container">
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="dashboard-card-icon">📚</div>
+            <h3>My Programs</h3>
+            <p>
+              View all your enrolled training programs and monitor your academic
+              progress.
+            </p>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="dashboard-card-icon">📝</div>
+            <h3>Assignments</h3>
+            <p>
+              Access assignments, quizzes, and practical exercises uploaded by
+              instructors.
+            </p>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="dashboard-card-icon">📜</div>
+            <h3>Certificates</h3>
+            <p>
+              Download your FITI certificates and completion records securely
+              online.
+            </p>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="dashboard-card-icon">📢</div>
+            <h3>Announcements</h3>
+            <p>
+              Stay updated with important notices, schedules, and upcoming
+              workshops.
+            </p>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="quick-actions">
+          <h2>Quick Actions</h2>
+
+          <div class="action-buttons">
+            <a href="programs.html" class="btn btn-primary">Browse Programs</a>
+            <a href="programs.html" class="btn btn-outline">Register Course</a>
+            <a href="contact.html" class="btn btn-outline">Contact Support</a>
+          </div>
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="activity-list">
+          <h2 class="section-title" style="margin-bottom: 2rem">
+            Recent Activity
+          </h2>
+
+          <div class="activity-item">
+            <div class="activity-icon">✅</div>
+            <div class="activity-content">
+              <strong>Risk Management Module Completed</strong>
+              <span>Completed on May 10, 2026</span>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon">📅</div>
+            <div class="activity-content">
+              <strong>Upcoming Workshop: Digital Banking</strong>
+              <span>Scheduled for June 2, 2026</span>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon">📄</div>
+            <div class="activity-content">
+              <strong>Certificate Available</strong>
+              <span>Banking Fundamentals certificate ready for download</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-root"></div>
+
+    <script src="app.js"></script>
+    <script src="layout.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Redirect to login if not authenticated
+        if (!Auth.isLoggedIn()) {
+          window.location.href = "login.html";
+          return;
+        }
+      });
+    </script>
+  </body>
+</html>
